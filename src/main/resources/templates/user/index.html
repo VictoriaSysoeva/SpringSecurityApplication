@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{../static/css/index.css}" type="text/css" rel="stylesheet">
+    <title>Главная страница</title>
+    <style>
+        body {
+            height:100vh;
+            background: rgb(54,173,161);
+            background: linear-gradient(135deg, rgba(54,173,161,1) 0%, rgba(79,221,207,1) 100%);
+            color: black;
+            font-family: sans-serif;
+            font-size: 18px;}
+        .menu_main {height: 50px;}
+        .navigation{display: flex;justify-content: space-between;}
+        form {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            line-height: 40px;
+            font-size: 20px;
+            color: #0f5952;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        input, button {
+            font-size: 15px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            outline: none;
+            text-align: center;
+            width: 80%;
+        }
+
+        input:link,
+        input:active,
+        input:visited {
+            background: #fff;
+            color: #36ACA0;
+            border: 2px #36ACA0 solid;}
+        button:link,
+        button:active,
+        button:visited {
+            background: #fff;
+            color: #36ACA0;
+            border: 2px #36ACA0 solid;}
+
+        input:hover {
+            background: #36ACA0;
+            color: #FFFFFF;
+            border: 2px #ffffff solid;}
+        button:hover {
+            background: #36ACA0;
+            color: #FFFFFF;
+            border: 2px #ffffff solid;}
+
+        a {text-decoration: none;}
+        h1 {
+            font-size: 25px;
+            color: #000000;
+            margin: 10px;
+            padding: 20px;
+        }
+        h3{
+            font-size: 18px;
+            color: #000000;
+            margin: 10px;
+            padding: 20px;
+        }
+        .sort input {font-size: 15px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            outline: none;
+            text-align: center;
+            width: 90px;
+        }
+        .sort form{font-size: 15px;
+            height: 300px;
+            line-height: 10px;}
+
+        label{font-size: 15px;}
+        img {
+            width: 150px;
+            border-radius: 5px;
+        }
+        .catalog {display: flex;
+            flex-wrap: wrap;
+            align-content: space-around;
+            justify-content: space-around;}
+
+    </style>
+
+</head>
+<body>
+<div class="menu_main">
+    <ul class="navigation">
+        <form method="get" th:action="@{/cart}"><button type="submit">Корзина</button></form>
+
+        <form method="get" th:action="@{/orders}"><input  type="submit" value="Заказы"></form>
+
+        <form method="post" th:action="@{/logout}"><button type="submit">Выйти из личного кабинета</button></form>
+    </ul>
+</div>
+
+<h1>Личный кабинет</h1>
+<h3>Сортировка, поиск, фильтрация</h3>
+<form class="sort" th:method="POST" th:action="@{/person account/product/search}">
+    <fieldset>
+        <legend>Выберите параметры для сортировки, поиска, фильтрации:</legend>
+        <label for="search">Поиск по наименованию</label>
+        <input type="text" id="search" name="search" th:value="*{value_search}">
+        <br>
+        <p>Цена, P</p>
+        <label for="ot">От</label>
+        <input type="text" name="ot" id="ot" th:value="*{value_price_ot}">
+        <label for="do">До</label>
+        <input type="text" name="do" id="do" th:value="*{value_price_do}">
+        <br>
+        <br>
+        <div>
+            <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
+            <label for="ascending_price">Отсортировать по возрастанию цены</label>
+            <input type="radio" id="descending_price" name="price"
+                   value="sorted_by_descending_price">
+            <label for="descending_price">Отсортировать по убыванию цены</label>
+            <p>Категория товаров: </p>
+            <input type="radio" id="furniture" name="contract" value="furniture">
+            <label for="furniture">Мебель</label>
+            <input type="radio" id="appliances" name="contract" value="appliances">
+            <label for="appliances">Бытовая техника</label>
+            <input type="radio" id="clothes" name="contract" value="clothes">
+            <label for="clothes">Одежда</label>
+            <br>
+            <br>
+            <input type="submit" value="Найти">
+        </div>
+    </fieldset>
+</form>
+<hr>
+<h3>Результат поиска, сортировки, фильтрации</h3>
+<div th:each="product : ${search_product}">
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+    <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+</div>
+<hr>
+<h3>Доступные товары: </h3>
+<div class="catalog">
+<div th:each="product : ${products}" style="width: 30%;margin-bottom: 15px; border: 1px #575656 solid; border-radius: 5px;padding: 15px;" >
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}">
+    <br>
+    <a style="font-size: 15px;" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+    <p style="font-size: 15px;" th:text="'Цена: ' + ${product.getPrice()}"></p>
+    <a style="font-size: 15px;" th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в корзину</a>
+</div>
+</div>
+</body>
+</html>

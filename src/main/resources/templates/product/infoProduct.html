@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Информация о товаре</title>
+    <style>
+        body{height:100vh;
+            background: rgb(54,173,161);
+            background: linear-gradient(135deg, rgba(54,173,161,1) 0%, rgba(79,221,207,1) 100%);}
+        img {
+            width: 100px;
+            border-radius: 5px;
+        }
+        p{font-size: 15px;}
+    </style>
+</head>
+<body>
+<h3>Информация о товаре: </h3>
+<p th:text="'Наименование: ' + ${product.getTitle()}"></p>
+<p th:text="'Описание: ' + ${product.getDescription()}"></p>
+<p th:text="'Цена: ' + ${product.getPrice()}"></p>
+<p th:text="'Cклад: ' + ${product.getWarehouse()}"></p>
+<p th:text="'Продавец: ' + ${product.getSeller()}"></p>
+<p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
+<div th:each="img : ${product.getImageList()}">
+  <img th:src="'/img/' + ${img.getFileName()}">
+</div>
+</body>
+</html>

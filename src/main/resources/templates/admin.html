@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет администратора</title>
+    <style>
+        body{height:100vh;
+            background: rgb(54,173,161);
+            background: linear-gradient(135deg, rgba(54,173,161,1) 0%, rgba(79,221,207,1) 100%);}
+        button {
+            font-size: 15px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            outline: none;
+            text-align: center;
+            width: 90%;
+        }
+        button:link,
+        button:active,
+        button:visited {
+            background: #fff;
+            color: #36ACA0;
+            border: 2px #36ACA0 solid;}
+        button:hover {
+            background: #36ACA0;
+            color: #FFFFFF;
+            border: 2px #ffffff solid;}
+        .nav{    display: flex;
+            align-content: space-around;
+            justify-content: space-between;
+            flex-direction: row-reverse;}
+        a {text-decoration: none;
+            color: black;}
+        a:hover{color: white;}
+        img {
+            width: 150px;
+            border-radius: 5px;
+        }
+        .catalog {display: flex;
+            flex-wrap: wrap;
+            align-content: space-around;
+            justify-content: space-around;}
+
+    </style>
+</head>
+<body>
+<h1>Личный кабинет администратора</h1>
+<div class="nav">
+<form method="post" th:action="@{/logout}">
+    <button type="submit">Выйти из личного кабинета</button>
+</form>
+
+<div>
+    <a href="admin/users">Посмотреть информацию о пользователях</a>
+    <br>
+    <hr>
+    <a href="admin/orders">Просмотр заказов</a>
+    <br>
+    <hr>
+    <a href="admin/product/add">Добавить товар</a>
+    <br>
+    <hr>
+    <a href="admin/product">Просмотр, добавление и редактирование товаров</a>
+</div>
+</div>
+<div class="catalog">
+<div th:each="product : ${products}" style="width: 30%;margin-bottom: 15px; border: 1px #575656 solid; border-radius: 5px;padding: 15px;">
+    <img th:src="'/img/' + ${product.imageList[0].getFileName()}">
+    <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
+    <p th:text="'Описание: ' + ${product.getDescription()}"></p>
+    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+    <p th:text="'Cклад: ' + ${product.getWarehouse()}"></p>
+    <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
+    <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
+    <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактирование товара</a>
+    <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удаление товара</a>
+
+</div>
+</div>
+</body>
+</html>

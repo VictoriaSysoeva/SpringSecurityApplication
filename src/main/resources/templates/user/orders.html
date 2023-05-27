@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Заказы</title>
+  <style>
+    body{height:100vh;
+      background: rgb(54,173,161);
+      background: linear-gradient(135deg, rgba(54,173,161,1) 0%, rgba(79,221,207,1) 100%);}
+    img {
+      width: 100px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<h3>Заказы</h3>
+<div th:each="order : ${orders}">
+  <h3 th:text="'Заказ №' + ${order.getNumber()}"></h3>
+  <img th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="300px">
+  <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}">
+  <p th:text="'Количество: ' + ${order.getCount()}">
+  <p th:text="'Цена: ' + ${order.getPrice()}">
+  <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+  <p th:text="'Cтатус: ' + ${order.getStatus()}">
+</div>
+</body>
+</html>

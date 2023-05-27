@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Корзина</title>
+  <style>
+    body{height:100vh;
+      background: rgb(54,173,161);
+      background: linear-gradient(135deg, rgba(54,173,161,1) 0%, rgba(79,221,207,1) 100%);}
+    img {
+      width: 100px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<h3>Корзина товаров</h3>
+<div th:each="product : ${cart_product}">
+  <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+  <br>
+  <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+  <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+  <a th:href="@{/cart/delete/{id}(id=${product.getId()})}">Удалить</a>
+  <hr>
+</div>
+<h3 th:text="'Итоговая цена: ' + ${price}"></h3>
+<a href="/order/create">Оформить заказ</a>
+</body>
+</html>

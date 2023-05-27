@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Регистрация</title>
+  <style>
+    body{height:100vh;
+      background: rgb(54,173,161);
+      background: linear-gradient(135deg, rgba(54,173,161,1) 0%, rgba(79,221,207,1) 100%);}
+    .auth {width: 50%;
+      margin: 0 auto;
+      padding-top: 200px;}
+    a {text-decoration: none;
+    color: black;}
+    a:hover{color: white;}
+    h3{margin: 0 auto;
+      font-size: 30px}
+    form {
+      width: 350px;
+      margin: auto;
+      padding: 20px;
+      line-height: 40px;
+      font-size: 20px;
+      color: #0f5952;
+      font-weight: 600;
+      text-align: center;
+    }
+    .in{margin: 0 auto;
+      padding: 20px;
+      width: 10%;
+      font-size: 20px;
+      font-family: fantasy;
+    }
+
+    input {
+      font-size: 15px;
+      padding: 8px 10px;
+      border-radius: 5px;
+      outline: none;
+      text-align: center;
+      width: 90%;
+    }
+
+    input:link,
+    input:active,
+    input:visited {
+      background: #fff;
+      color: #36ACA0;
+      border: 2px #36ACA0 solid;}
+
+    input:hover {
+      background: #36ACA0;
+      color: #FFFFFF;
+      border: 2px #ffffff solid;}
+  </style>
+</head>
+<body>
+<h3>Регистрация</h3>
+<form method="post" th:actioin="@{/registration}" th:object="${person}">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+  <label for="login">Введите логин: </label>
+  <input type="text" th:field="*{login}" id="login">
+  <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+  <br>
+  <label for="password">Введите пароль: </label>
+  <input type="password" th:field="*{password}" id="password">
+  <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+  <br>
+  <input type="submit" value="Зарегистрироваться">
+</form>
+<div class="in">
+<a href="/authentication">Вход</a>
+</div>
+</body>
+</html>
